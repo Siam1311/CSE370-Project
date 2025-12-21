@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2025 at 01:52 PM
+-- Generation Time: Dec 21, 2025 at 06:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -90,6 +90,14 @@ CREATE TABLE `codingexercise` (
   `codeBody` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `codingexercise`
+--
+
+INSERT INTO `codingexercise` (`exerciseID`, `codeBody`) VALUES
+(1, 'print()'),
+(2, '');
+
 -- --------------------------------------------------------
 
 --
@@ -127,6 +135,14 @@ CREATE TABLE `codingtestcase` (
   `expectedOutput` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `codingtestcase`
+--
+
+INSERT INTO `codingtestcase` (`ID`, `codingExerciseID`, `input`, `expectedOutput`) VALUES
+(1, 1, '', 'Hello, world!'),
+(2, 2, '', 'Hi, mom!');
+
 -- --------------------------------------------------------
 
 --
@@ -139,6 +155,13 @@ CREATE TABLE `concept` (
   `moduleID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `concept`
+--
+
+INSERT INTO `concept` (`ID`, `name`, `moduleID`) VALUES
+(1, 'Printing', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -149,6 +172,14 @@ CREATE TABLE `course` (
   `ID` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`ID`, `name`) VALUES
+(1, 'Python'),
+(2, 'Java');
 
 -- --------------------------------------------------------
 
@@ -179,6 +210,14 @@ CREATE TABLE `exercise` (
   `testID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `exercise`
+--
+
+INSERT INTO `exercise` (`ID`, `conceptID`, `questionStatement`, `codeBlock`, `diagram`, `audio`, `video`, `type`, `testID`) VALUES
+(1, 1, 'Complete the code to print \"Hello, world!\"', NULL, NULL, NULL, NULL, 'e', NULL),
+(2, 1, 'Write the code to print \"Hi, mom!\".', NULL, NULL, NULL, NULL, 'p', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -205,6 +244,14 @@ CREATE TABLE `explanation` (
   `audio` varchar(3000) DEFAULT NULL,
   `video` varchar(3000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `explanation`
+--
+
+INSERT INTO `explanation` (`ID`, `name`, `conceptID`, `text`, `diagram`, `audio`, `video`) VALUES
+(1, 'Print Hello World', 1, 'Welcome to Python. Let us build our first program! We will build a program that outputs the statement \"Hello, world!\" to the console. In Python, you can print text as output using the print() function. We place the text we want to print inside the brackets. For example: print(\"Hello, world!\"). Note that the text must be inside quotation marks as well.', 'hello_world.png', NULL, NULL),
+(2, 'First Steps', 1, 'Now it\'s your turn! Write the code that would print \"Hello, world!\" to the screen.', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -238,6 +285,13 @@ CREATE TABLE `interactiveexplanation` (
   `exerciseID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `interactiveexplanation`
+--
+
+INSERT INTO `interactiveexplanation` (`explanationID`, `exerciseID`) VALUES
+(2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -246,13 +300,21 @@ CREATE TABLE `interactiveexplanation` (
 
 CREATE TABLE `learner` (
   `username` varchar(100) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `pwHASH` varchar(2000) DEFAULT NULL,
-  `currentStreak` int(11) DEFAULT NULL,
-  `longestStreak` int(11) DEFAULT NULL,
-  `dateJoined` date DEFAULT NULL,
-  `tournamentRating` int(11) DEFAULT NULL
+  `email` varchar(100) NOT NULL,
+  `pwHash` varchar(2000) NOT NULL,
+  `currentStreak` int(11) NOT NULL DEFAULT 0,
+  `longestStreak` int(11) NOT NULL DEFAULT 0,
+  `dateJoined` date NOT NULL DEFAULT curdate(),
+  `tournamentRating` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `learner`
+--
+
+INSERT INTO `learner` (`username`, `email`, `pwHash`, `currentStreak`, `longestStreak`, `dateJoined`, `tournamentRating`) VALUES
+('Nira', 'moniraoyshi@gmail.com', '$2y$10$KjzfayAAlO//o4ze2iQAROjyg9y1SQUy/RQeM/koa2pWql39azOFm', 0, 0, '2025-12-21', 1000),
+('Siam', 'shudipto.siam@g.bracu.ac.bd', '$2y$10$TV5QvPHuttFPjLC7pSIYIefEsOeC9.DASI.JbdesJ2oYWrRKE.h2O', 0, 0, '2025-12-21', 1000);
 
 -- --------------------------------------------------------
 
@@ -293,6 +355,15 @@ CREATE TABLE `learnertakescourse` (
   `currentExplanation` int(11) DEFAULT NULL,
   `currentExercise` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `learnertakescourse`
+--
+
+INSERT INTO `learnertakescourse` (`username`, `courseID`, `dateTaken`, `currentModule`, `currentConcept`, `currentExplanation`, `currentExercise`) VALUES
+('Nira', 1, '2025-12-21', NULL, NULL, NULL, NULL),
+('Nira', 2, '2025-12-21', NULL, NULL, NULL, NULL),
+('Siam', 1, '2025-12-21', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -415,6 +486,13 @@ CREATE TABLE `module` (
   `courseID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `module`
+--
+
+INSERT INTO `module` (`ID`, `name`, `courseID`) VALUES
+(1, 'Hello, world', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -424,6 +502,13 @@ CREATE TABLE `module` (
 CREATE TABLE `noninteractiveexplanation` (
   `explanationID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `noninteractiveexplanation`
+--
+
+INSERT INTO `noninteractiveexplanation` (`explanationID`) VALUES
+(1);
 
 -- --------------------------------------------------------
 
